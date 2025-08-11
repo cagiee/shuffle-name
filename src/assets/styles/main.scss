@@ -1,0 +1,90 @@
+@font-face {
+  font-family: "Manrope";
+  src: url("../fonts/manrope.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  color: #333;
+}
+
+* {
+  box-sizing: border-box;
+}
+*:not(.can-select) {
+  user-select: none !important;
+
+  * {
+    user-select: none !important;
+  }
+}
+
+.can-select {
+  user-select: text !important;
+
+  * {
+    user-select: text !important;
+  }
+}
+
+body {
+  font-family: "Manrope", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.block {
+  display: block !important;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.mb-1 {
+  margin-bottom: 1rem;
+}
+
+.mb-50 {
+  margin-bottom: 0.5rem;
+}
+
+.radio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  height: 12px;
+  max-width: 12px;
+  max-height: 12px;
+  min-width: 12px;
+  min-height: 12px;
+  border: 1px solid #777;
+  border-radius: 50%;
+
+  &__dot {
+    width: 8px;
+    height: 8px;
+    max-width: 8px;
+    max-height: 8px;
+    min-width: 8px;
+    min-height: 8px;
+    border-radius: 50%;
+    background-color: var(--primary-color, #777);
+  }
+}
+
+.form {
+  position: relative;
+
+  &__input {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    box-sizing: border-box;
+    &:focus {
+      outline: none;
+      border-color: var(--primary-color, #007bff);
+    }
+  }
+}
