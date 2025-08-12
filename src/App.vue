@@ -76,17 +76,29 @@ const resetSpin = (): void => {
     <div class="overlay">
       <div
         class="block"
+        style="width: 100; margin: 18px 0 18px; font-size: 1.75em"
+        align="center"
+      >
+        {{ displayedTitle === "" ? settings.title : displayedTitle }}
+      </div>
+
+      <div
+        v-if="!isSpinning && displayedSubtitle !== ''"
+        class="block"
         style="width: 100%; font-size: 0.7em; font-weight: normal"
         align="center"
       >
-        {{ displayedTitle }}
-      </div>
-      <div class="block" style="width: 100; margin: 18px 0 18px" align="center">
-        {{ displayedSubtitle === "" ? settings.title : displayedSubtitle }}
+        {{ displayedSubtitle }}
       </div>
       <div
+        v-if="!isSpinning && displayedDescription !== ''"
         class="block"
-        style="width: 100%; font-size: 0.7em; font-weight: normal"
+        style="
+          width: 100%;
+          font-size: 0.45em;
+          font-weight: normal;
+          margin-top: 12px;
+        "
         align="center"
       >
         {{ displayedDescription }}
@@ -136,7 +148,8 @@ const resetSpin = (): void => {
   top: 50%;
   left: 0;
   width: 100%;
-  height: 200px;
+  min-height: 200px;
+  padding: 40px;
   transform: translateY(-50%);
   background-color: #f0f0f077;
   z-index: 1; /* Ensure it stays behind other content */
