@@ -132,11 +132,14 @@ const resetSpin = (): void => {
 <style lang="scss" scoped>
 .container {
   background-color: var(--background-color);
-  min-height: 100vh;
+  width: 1792px;
+  height: 1024px;
   padding: 12px 48px;
+  position: relative;
+  margin: 24px auto;
 }
 .floating-button {
-  position: fixed;
+  position: absolute;
   bottom: 24px;
   right: 24px;
   display: flex;
@@ -144,7 +147,7 @@ const resetSpin = (): void => {
   z-index: 2;
 }
 .overlay {
-  position: fixed;
+  position: absolute;
   top: 50%;
   left: 0;
   width: 100%;
