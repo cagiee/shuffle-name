@@ -12,7 +12,7 @@ export const useSettingsStore = defineStore("settings", {
     title: "Lucky Draw",
     primaryColor: "#4a90e2",
     textColor: "#f5f5f5",
-    backgroundColor: "#4a90e2",
+    backgroundColor: "#000000",
   }),
   getters: {
     getTitle: (state) => state.title,
