@@ -102,31 +102,31 @@ const triggerConfettiSoundEffect = async () => {
     }"
   >
     <img
-      v-if="page === 'home'"
+      v-show="page === 'home'"
       src="./assets/homepage.png"
       alt=""
       class="bg-image"
     />
     <img
-      v-if="page === 'kasur'"
+      v-show="page === 'kasur'"
       src="./assets/kasur.png"
       alt=""
       class="bg-image"
     />
     <img
-      v-if="page === 'kalung'"
+      v-show="page === 'kalung'"
       src="./assets/kalung.png"
       alt=""
       class="bg-image"
     />
     <img
-      v-if="page === 'motor'"
+      v-show="page === 'motor'"
       src="./assets/motor.png"
       alt=""
       class="bg-image"
     />
     <img
-      v-if="page === 'mobil'"
+      v-show="page === 'mobil'"
       src="./assets/mobil.png"
       alt=""
       class="bg-image"
