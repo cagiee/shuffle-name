@@ -11,8 +11,8 @@ export const useSettingsStore = defineStore("settings", {
   state: (): ISettings => ({
     title: "Lucky Draw",
     primaryColor: "#4a90e2",
-    textColor: "#4a90e2",
-    backgroundColor: "#f5f5f5",
+    textColor: "#f5f5f5",
+    backgroundColor: "#4a90e2",
   }),
   getters: {
     getTitle: (state) => state.title,

@@ -4,6 +4,8 @@ import { ref } from "vue";
 import Trophy from "../icons/Trophy.vue";
 import ModalWinners from "../modals/ModalWinners.vue";
 
+// External variables
+
 // Other variables
 const showSettingModal = ref(false);
 </script>

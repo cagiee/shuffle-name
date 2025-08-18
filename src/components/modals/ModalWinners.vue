@@ -10,6 +10,7 @@ const modelValue = defineModel("modelValue", {
   default: false,
 });
 const items = useItemsStore();
+const page = ref("kasur");
 
 // Other variables
 const elModal = ref<InstanceType<typeof Modal> | null>(null);
@@ -18,13 +19,19 @@ const elModal = ref<InstanceType<typeof Modal> | null>(null);
 
 // Handle actions
 const confirmDelete = (title: string) => {
-  console.log("delete action");
   if (confirm("Are you sure you want to delete this winner?")) {
     deleteAction(title);
   }
 };
 const deleteAction = (title: string) => {
   items.removeSelectedItem(title);
+};
+const filteredItems = () => {
+  return items.getSelectedItems.filter((item) => item.section === page.value);
+};
+const itemsCounter = (section: string) => {
+  return items.getSelectedItems.filter((item) => item.section === section)
+    .length;
 };
 </script>
 
@@ -36,11 +43,21 @@ const deleteAction = (title: string) => {
     no-persist
     width="1000px"
   >
-    <table
-      v-if="items.getSelectedItems.length > 0"
-      border="1"
-      class="can-select"
-    >
+    <div class="tab">
+      <div :class="{ active: page === 'kasur' }" @click="page = 'kasur'">
+        Kasur 【 {{ itemsCounter("kasur") }} 】
+      </div>
+      <div :class="{ active: page === 'kalung' }" @click="page = 'kalung'">
+        Kalung 【 {{ itemsCounter("kalung") }} 】
+      </div>
+      <div :class="{ active: page === 'motor' }" @click="page = 'motor'">
+        Motor 【 {{ itemsCounter("motor") }} 】
+      </div>
+      <div :class="{ active: page === 'mobil' }" @click="page = 'mobil'">
+        Mobil 【 {{ itemsCounter("mobil") }} 】
+      </div>
+    </div>
+    <table v-if="filteredItems().length > 0" border="1" class="can-select">
       <thead>
         <tr>
           <td>No</td>
@@ -51,7 +68,7 @@ const deleteAction = (title: string) => {
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in items.getSelectedItems" :key="index">
+        <tr v-for="(item, index) in filteredItems()" :key="index">
           <td>{{ index + 1 }}</td>
           <td>{{ item.title }}</td>
           <td>{{ item.subtitle }}</td>
@@ -84,6 +101,22 @@ table {
   }
   th {
     background-color: #f2f2f2;
+  }
+}
+.tab {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+
+  & > div {
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-bottom: 3px solid transparent;
+
+    &.active {
+      border-bottom: 3px solid #007bff;
+    }
   }
 }
 </style>

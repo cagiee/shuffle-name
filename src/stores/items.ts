@@ -6,8 +6,12 @@ export interface IItem {
   description: string;
 }
 
+export interface ISelectableItem extends IItem {
+  section: string;
+}
+
 export const useItemsStore = defineStore("items", {
-  state: (): { items: IItem[]; selectedItems: IItem[] } => ({
+  state: (): { items: IItem[]; selectedItems: ISelectableItem[] } => ({
     items: [],
     selectedItems: [],
   }),
@@ -22,10 +26,18 @@ export const useItemsStore = defineStore("items", {
     setItems(items: IItem[]) {
       this.items = items;
     },
-    selectItemByNumber(title: string) {
+    removeItemBySubtitle(subtitle: string) {
+      console.log(`Removing item with subtitle: ${subtitle}`);
+      this.items = this.items.filter((item) => item.subtitle !== subtitle);
+    },
+    selectItemByNumber(title: string, section: string) {
       const item = this.items.find((item) => item.title === title);
-      if (item && !this.selectedItems.includes(item)) {
-        this.selectedItems.push(item);
+      if (item && !this.selectedItems.some((i) => i.title === title)) {
+        const mappedItem: ISelectableItem = {
+          ...item,
+          section,
+        };
+        this.selectedItems.push(mappedItem);
       }
     },
     removeSelectedItem(title: string) {
