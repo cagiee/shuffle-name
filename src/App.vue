@@ -1,11 +1,13 @@
 <script setup lang="ts">
+import explodeConfettiSound from "./assets/explode-confetti.mp3";
 import confettiSound from "./assets/confetti.mp3";
+import drumSound from "./assets/drum.mp3";
 import SettingFloatingButton from "./components/ui/SettingFloatingButton.vue";
 import ItemFloatingButton from "./components/ui/ItemFloatingButton.vue";
 import { useSettingsStore } from "./stores/settings";
 import { useItemsStore } from "./stores/items";
 import Button from "./components/ui/Button.vue";
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import WinnerFloatingButton from "./components/ui/WinnerFloatingButton.vue";
 import ConfettiVideo from "./components/ui/ConfettiVideo.vue";
 import OrangeButton from "./components/ui/OrangeButton.vue";
@@ -24,6 +26,7 @@ const confetti = ref();
 let spinInterval: number | undefined;
 
 // Start random animation
+const intervals = [];
 const hasItems = (): boolean => {
   return itemsStore.getItems.length > 0;
 };
@@ -33,6 +36,7 @@ const startSpin = (): void => {
     alert("No items available to spin");
     return;
   }
+  triggerDrumSoundEffect();
   type.value = "shuffle"; // Set type to shuffle
   stopSpin(); // ensure no duplicate interval
   isSpinning.value = true;
@@ -51,9 +55,31 @@ const startSpin = (): void => {
 const stopSpin = (): void => {
   if (spinInterval) {
     clearInterval(spinInterval);
+    stopDrumSoundEffect();
+    triggerExplodeConfettiSoundEffect();
     triggerConfettiSoundEffect();
     spinInterval = undefined;
     confetti.value?.celebrate(); // Trigger confetti celebration
+    setTimeout(() => {
+      // confetti.value?.celebrate(); // Trigger confetti celebration
+      triggerExplodeConfettiSoundEffect();
+    }, 1500);
+    setTimeout(() => {
+      // confetti.value?.celebrate(); // Trigger confetti celebration
+      triggerExplodeConfettiSoundEffect();
+    }, 3000);
+
+    // setInterval(() => {
+    //   confetti.value?.celebrate(); // Trigger confetti celebration
+    //   // triggerExplodeConfettiSoundEffect();
+    // }, 1500);
+
+    intervals.push(
+      setInterval(() => {
+        confetti.value?.celebrate(); // Trigger confetti celebration
+        // triggerExplodeConfettiSoundEffect();
+      }, 1500)
+    );
     itemsStore.selectItemByNumber(displayedTitle.value, page.value); // Update selected item in store
     isSpinning.value = false;
     itemsStore.removeItemBySubtitle(displayedSubtitle.value); // Remove item from store
@@ -62,6 +88,8 @@ const stopSpin = (): void => {
 
 const resetSpin = (): void => {
   stopSpin();
+  intervals.forEach((id) => clearInterval(id));
+  intervals.length = 0; // reset list
   displayedTitle.value = "";
   displayedSubtitle.value = "";
   displayedDescription.value = "";
@@ -90,6 +118,37 @@ const triggerConfettiSoundEffect = async () => {
     audio.play();
   }
 };
+const explodeConfettiAudio = ref<HTMLAudioElement | null>(null);
+const triggerExplodeConfettiSoundEffect = async () => {
+  const audio = explodeConfettiAudio.value;
+  if (audio) {
+    audio.currentTime = 0;
+    audio.play();
+  }
+};
+const drumAudio = ref<HTMLAudioElement | null>(null);
+const triggerDrumSoundEffect = async () => {
+  const audio = drumAudio.value;
+  if (audio) {
+    audio.currentTime = 0;
+    audio.play();
+  }
+};
+const stopDrumSoundEffect = async () => {
+  const audio = drumAudio.value;
+  if (audio) {
+    audio.pause();
+    audio.currentTime = 0;
+  }
+};
+
+watch(
+  () => [page.value, type.value],
+  () => {
+    intervals.forEach((id) => clearInterval(id));
+    intervals.length = 0; // reset list
+  }
+);
 </script>
 
 <template>
@@ -244,10 +303,26 @@ const triggerConfettiSoundEffect = async () => {
       "
     ></div>
     <ConfettiVideo ref="confetti" />
+    <audio
+      ref="explodeConfettiAudio"
+      :src="explodeConfettiSound"
+      preload="auto"
+    ></audio>
     <audio ref="confettiAudio" :src="confettiSound" preload="auto"></audio>
+    <audio ref="drumAudio" :src="drumSound" preload="auto" loop></audio>
+
+    <!-- <video width="600" height="400" class="confetti-video" controls>
+      <source src="./assets/confetti.mov" type="video/quicktime" />
+    </video> -->
+    <!-- <img src="./assets/confetti.gif" alt="" class="confetti-video" /> -->
   </div>
 </template>
 <style lang="scss" scoped>
+.confetti-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
 .prize-text {
   position: absolute;
   top: 50%;

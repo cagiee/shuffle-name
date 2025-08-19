@@ -12,9 +12,10 @@ export function createScopedConfetti(canvas) {
   // Wrap instance so we inject default particleCount & spread
   return (options = {}) => {
     return instance({
-      particleCount: 300, // increased from 120
-      spread: 120, // increased from 70
-      origin: { y: 0.8 },
+      scalar: 1.5, // increased from 1.0
+      particleCount: 0, // increased from 50
+      spread: 1000, // increased from 50
+      colors: ["#f2b156ff"],
       ...options,
     });
   };

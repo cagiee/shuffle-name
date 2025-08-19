@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-[400px] h-[300px] border rounded-lg overflow-hidden">
+  <div class="relative w-[100%] h-[100vh] border rounded-lg overflow-hidden">
     <canvas ref="confettiCanvas" class="confettiCanvas"></canvas>
   </div>
 </template>
@@ -17,18 +17,24 @@ onMounted(() => {
 
 function celebrate() {
   if (!confettiInstance) return;
-  confettiInstance({ particleCount: 120, spread: 70, origin: { y: 0.8 } });
+  // confettiInstance({ particleCount: 120, spread: 70, origin: { y: 0 } });
   confettiInstance({
-    particleCount: 80,
-    angle: 60,
-    spread: 55,
-    origin: { x: 0 },
+    particleCount: 400,
+    angle: 0,
+    spread: 1000,
+    origin: { x: 0.5, y: -0.1 },
   });
   confettiInstance({
-    particleCount: 80,
-    angle: 120,
-    spread: 55,
-    origin: { x: 1 },
+    particleCount: 400,
+    angle: 0,
+    spread: 1000,
+    origin: { x: 0.1, y: -0.1 },
+  });
+  confettiInstance({
+    particleCount: 400,
+    angle: 0,
+    spread: 1000,
+    origin: { x: 1, y: -0.1 },
   });
 }
 
