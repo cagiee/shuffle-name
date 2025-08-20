@@ -36,6 +36,55 @@ const startSpin = (): void => {
     alert("No items available to spin");
     return;
   }
+
+  const { getSelectedItems } = useItemsStore();
+  const KASUR_LIMIT = 2;
+  const MOTOR_LIMIT = 1;
+  const KALUNG_LIMIT = 1;
+  const MOBIL_LIMIT = 1;
+
+  switch (page.value) {
+    case "motor":
+      if (
+        getSelectedItems.filter((item) => item.section === "motor").length ===
+        MOTOR_LIMIT
+      ) {
+        alert("You have reached the limit for motorcycle prizes.");
+        return;
+      }
+      break;
+    case "kasur":
+      if (
+        getSelectedItems.filter((item) => item.section === "kasur").length ===
+        KASUR_LIMIT
+      ) {
+        alert("You have reached the limit for bed prizes.");
+        return;
+      }
+      break;
+    case "kalung":
+      if (
+        getSelectedItems.filter((item) => item.section === "kalung").length ===
+        KALUNG_LIMIT
+      ) {
+        alert("You have reached the limit for necklace prizes.");
+        return;
+      }
+      break;
+    case "mobil":
+      if (
+        getSelectedItems.filter((item) => item.section === "mobil").length ===
+        MOBIL_LIMIT
+      ) {
+        alert("You have reached the limit for car prizes.");
+        return;
+      }
+      break;
+
+    default:
+      break;
+  }
+
   triggerDrumSoundEffect();
   type.value = "shuffle"; // Set type to shuffle
   stopSpin(); // ensure no duplicate interval
@@ -60,14 +109,14 @@ const stopSpin = (): void => {
     triggerConfettiSoundEffect();
     spinInterval = undefined;
     confetti.value?.celebrate(); // Trigger confetti celebration
-    setTimeout(() => {
-      // confetti.value?.celebrate(); // Trigger confetti celebration
-      triggerExplodeConfettiSoundEffect();
-    }, 1500);
-    setTimeout(() => {
-      // confetti.value?.celebrate(); // Trigger confetti celebration
-      triggerExplodeConfettiSoundEffect();
-    }, 3000);
+    // setTimeout(() => {
+    //   confetti.value?.celebrate(); // Trigger confetti celebration
+    //   triggerExplodeConfettiSoundEffect();
+    // }, 1500);
+    // setTimeout(() => {
+    //   confetti.value?.celebrate(); // Trigger confetti celebration
+    //   triggerExplodeConfettiSoundEffect();
+    // }, 3000);
 
     // setInterval(() => {
     //   confetti.value?.celebrate(); // Trigger confetti celebration
@@ -436,8 +485,8 @@ watch(
 }
 .reset-button {
   position: absolute;
-  top: 63%;
-  left: 70%;
+  top: 90%;
+  left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
   justify-content: center;
