@@ -105,7 +105,7 @@ const stopSpin = (): void => {
   if (spinInterval) {
     clearInterval(spinInterval);
     stopDrumSoundEffect();
-    triggerExplodeConfettiSoundEffect();
+    //triggerExplodeConfettiSoundEffect();
     triggerConfettiSoundEffect();
     spinInterval = undefined;
     confetti.value?.celebrate(); // Trigger confetti celebration
